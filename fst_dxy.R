@@ -110,6 +110,7 @@ for (i in 1:(dim(catalog)[1])) {
               dxy <- dxy + (dim(j_haplotypes)[2])-sum(j_haplotypes[n,]==m_haplotypes[o,])
             }
           }
+          dxy <- dxy/(j_nos*m_nos)
           if(length(outgroup_haplotypes)>0){
             dxy_outgroup <- 0
             for (n in 1:(dim(all_haplotypes)[1])) {
@@ -117,6 +118,7 @@ for (i in 1:(dim(catalog)[1])) {
                 dxy_outgroup <- dxy_outgroup + (dim(all_haplotypes)[2])-sum(all_haplotypes[n,]==outgroup_haplotypes[o,])
               }
             }
+          dxy_outgroup <- dxy_outgroup/(all_nos*(dim(outgroup_haplotypes)[1]))
           dstd <- dxy/dxy_outgroup  
           } else {
           dstd <- NA
@@ -127,7 +129,7 @@ for (i in 1:(dim(catalog)[1])) {
      temp <- matrix(c(fst,dxy,dstd),nrow=1)
      locustemp <- cbind(locustemp,temp)
      }
-    }
    outputname <- rbind(outputname,locustemp)
-  }
-  
+}
+
+write.table(outputname,"dxy_fst.table",quote=FALSE,row.names=FALSE,col.names=FALSE)
